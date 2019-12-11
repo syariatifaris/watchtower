@@ -37,7 +37,7 @@ type WatchTower interface {
 type Fixable struct {
 	Name    string
 	Healthy func() bool
-	Fix     func() error
+	FixFunc func() error
 	Err     string
 }
 
@@ -107,7 +107,7 @@ func (w *watcher) fix() {
 				isStillFixing.Set(true)
 				for name, f := range w.brokens {
 					w.debug(">>> Fixing ", name)
-					err := f.Fix()
+					err := f.FixFunc()
 					if err != nil {
 						w.debugf("Error fixing %s, got error : %+v\n", name, err)
 					} else {

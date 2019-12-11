@@ -37,7 +37,7 @@ func main() {
 		Healthy: func() bool {
 			return rds != nil
 		},
-		Fix: func() error {
+		FixFunc: func() error {
 			fmt.Println("fixing redis")
 			rds = new(redisDummy)
 			return nil
@@ -50,7 +50,7 @@ func main() {
 		Healthy: func() bool {
 			return db != nil
 		},
-		Fix: func() error {
+		FixFunc: func() error {
 			fmt.Println("fixing the db")
 			db = new(dbDummy)
 			return nil

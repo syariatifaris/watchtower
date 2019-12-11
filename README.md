@@ -8,30 +8,30 @@ Watch tower is a library to check and manage objects health and perform the fix 
 done := make(chan bool)
 tw := watchtower.New(true)
 
-redisFixable := watchtower.Fixable{
+rds := watchtower.Fixable{
 	Name: "redis object health",
 	Err:  "redis object is nil",
 	Healthy: func() bool {
 		return rds != nil
 	},
-	Fix: func() error {
+	FixFunc: func() error {
 		rds = new(Redis)
 		return nil
 	},
 }
-dbFixable := watchtower.Fixable{
+db := watchtower.Fixable{
 	Name: "database object health",
 	Err:  "database nil",
 	Healthy: func() bool {
 	    return db != nil
 	},
-	Fix: func() error {
+	FixFunc: func() error {
 	    db = new(Database)
 	    return nil
 	},
 }
 
-tw.AddWatchObject(redisFixable, dbFixable)
+tw.AddWatchObject(rds, db)
 go tw.Run(done)
 
 ```
